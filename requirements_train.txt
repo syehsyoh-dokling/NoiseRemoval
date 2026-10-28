@@ -1,0 +1,9 @@
+# Track 2 training (stages 2-3 ran on Kaggle, Python 3.13, 2x Tesla T4 16 GB; stages 0-1 on an RTX 4060 Laptop 8 GB)
+torch>=2.4
+numpy>=2.0
+scipy>=1.13
+soundfile>=0.12
+denoiser==0.1.5       # stage 0 only: pretrained dns64 weights (facebookresearch/denoiser) as the starting point
+huggingface_hub>=0.25 # stages 0-1 package a submission with the mandated ASR
+transformers>=4.45
+sentencepiece>=0.2

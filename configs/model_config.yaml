@@ -1,0 +1,29 @@
+# Denoiser: facebookresearch/denoiser Demucs, dns64 configuration (code vendored in inference/dn and train/dn)
+model:
+  arch: Demucs
+  hidden: 64
+  sample_rate: 16000
+  # all other Demucs arguments are the library defaults (depth 5, kernel 8, stride 4, causal, resample 4, LSTM)
+checkpoints:
+  - checkpoints/v39_s1.pt   # stage 3 seed s1, 78,220 steps (weights stored fp16; bit-identical outputs under fp16 autocast)
+  - checkpoints/v39_s2.pt   # stage 3 seed s2, 78,631 steps
+ensemble: waveform mean of both seeds, each output peak-limited to 0.99 and rounded to a multiple of 4 (int16)
+
+template_discovery:          # inference/template_fast.py
+  residual: x - denoised(x)  # seeds and matching run on the denoiser residual
+  scan_rate_hz: 4000         # matching on 4 kHz decimated residuals
+  seed_len_s: 1.0            # one seed per clip: strongest 1 s residual window
+  search_ext_s: 1.5          # template window: seed +- 1.5 s
+  thr_scan_ncc: 0.70         # 4 kHz candidate threshold
+  thr_confirm_ncc: 0.75      # 16 kHz confirmation threshold
+  coherence_support: 0.5     # template keeps samples where aligned copies agree
+  frame_hop: 320             # 20 ms frames for the coherence support
+  rule: -99                  # subtract on every clip with an occurrence
+  passes: 2                  # pass 2 runs on x - sum(g*T) from pass 1
+subtraction: x' = x - sum over occurrences of g*T, g fitted by least squares on the mixture
+final: mean of both denoisers on x' for clips with occurrences; denoiser-only output elsewhere
+
+packaging:
+  quantisation: round(y * 32768 / 4) * 4   # done BEFORE transcription so the audit re-transcribes identical audio
+  asr: ARTPARK-IISc/SraVaani-1.0, batch 8, on exactly the written files
+  zip: deflate level 9, transcripts.jsonl + 3178 WAVs, < 1,000,000,000 bytes
