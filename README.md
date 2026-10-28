@@ -33,7 +33,7 @@ inference/
 train/
   stage0_factory.py             stage 0: data factory + SI-SDR fine-tune of pretrained dns64
   stage1_evfree.py              stage 1: event-free masked SI-SDR targets (v36)
-  stage2_long.py                stage 2: 10.3 h long run on 2×T4, batch 16 (v38a)
+  stage2_long.py                stage 2: 10.3 h long run on one T4 of a 2×T4 kernel, batch 16 (v38a; the other GPU ran the rejected ESC-50 variant b)
   stage3_continue.py            stage 3: 8.5 h continuation, two seeds s1/s2 (v39) -> released checkpoints
   prep_kaggle_dataset.py        builds the data folder the Kaggle stages read
 checkpoints/v39_s1.pt, v39_s2.pt   final denoisers (fp16 storage, 67 MB each)
