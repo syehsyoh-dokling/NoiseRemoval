@@ -113,6 +113,9 @@ steps with the Gold clips added as targets. Stages 1-3 are the exact scripts tha
 
 ## License and data
 
-Our code is released for research use. `inference/dn/` and `train/dn/` are vendored from facebookresearch/denoiser
-and keep its CC BY-NC 4.0 license; the released checkpoints are fine-tuned from dns64 and inherit that license.
-Vaani audio is not redistributed here. ESC-50 was tried in one rejected variant and is not used by the final system.
+Our code (everything outside `inference/dn/` and `train/dn/`) is released under the MIT License (`LICENSE`).
+`inference/dn/` and `train/dn/` are vendored from facebookresearch/denoiser and keep its CC BY-NC 4.0 license; the
+released checkpoints are fine-tuned from the dns64 weights and inherit that license. These upstream terms cannot be
+relaxed by us: the denoiser itself is only available under CC BY-NC 4.0, so the trained model is non-commercial while
+all code we wrote is permissively licensed. Vaani audio is not redistributed here. ESC-50 was tried in one rejected
+variant and is not used by the final system.
