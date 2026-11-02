@@ -1,5 +1,13 @@
 # Datathon@IndoML 2026, Track 2 (Noise Event Removal): blind noise-template subtraction + fine-tuned Demucs
 
+## Primary Contact Information
+* **Team Name**: syehsyoh
+* **Team Leader Name**: Saifuddin (Registered on Codabench)
+* **Primary Email**: syehsaifuddin@gmail.com
+* **Mobile / WhatsApp**: +62 822-7217-1011
+
+---
+
 Team **syehsyoh**. Final Phase-2 leaderboard: **rank 2**, Codabench submission **995100**, combined score
 **21.2379** (SI-SDR 16.77 dB, ΔWER×100 4.47, audit pass).
 
@@ -64,11 +72,19 @@ Pretrained models:
 
 ## Inference
 
+The primary inference entry point requested by the organisers is **`main.py`** at the repository root:
+
 ```bash
-pip install -r requirements_inference.txt
-# full pipeline: denoise, two discovery passes (~4 h on 8 CPU workers), subtract, denoise, ASR, zip
-bash scripts/run_inference.sh /path/to/phase2_test_wavs
-# exact reproduction in ~30 min with the released template sets
+# 1. Install dependencies
+pip install -r requirements.txt
+
+# 2. Run inference with released templates (exact reproduction in ~30 min)
+python main.py --test-dir /path/to/phase2_test_wavs
+
+# Alternatively, run full end-to-end CPU blind discovery from scratch (~4 h on 8 workers):
+python main.py --test-dir /path/to/phase2_test_wavs --full-discovery
+
+# Bash script alternative:
 bash scripts/run_inference.sh /path/to/phase2_test_wavs --fast
 ```
 

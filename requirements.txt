@@ -1,0 +1,8 @@
+# Track 2 inference (tested with Python 3.13, CUDA 12.6, RTX 4060 Laptop 8 GB)
+torch>=2.4            # CUDA build; inference runs the denoiser under fp16 autocast
+numpy>=2.0
+scipy>=1.13
+soundfile>=0.12
+huggingface_hub>=0.25 # downloads the mandated ASR ARTPARK-IISc/SraVaani-1.0
+transformers>=4.45    # SraVaani is loaded with trust_remote_code
+sentencepiece>=0.2    # SraVaani tokenizer
